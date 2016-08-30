@@ -3,7 +3,10 @@ using System.Collections;
 public enum Buttons { 
     Left,
     right,
-    Jump
+    Up,
+    Down,
+    A,
+    B
 }
 public enum Condition
 {
@@ -41,18 +44,30 @@ public class InputManger : MonoBehaviour
 {
 
     public inputAxisState[] inputs;
+    public InputState inputStae;
 
+    void Start()
+    {
+        if(inputStae== null)
+        {
+            foreach (var P in GameObject.FindObjectsOfType<InputState>())
+            {
+                if (P.gameObject.tag == "Player")
+                {
+                    inputStae = P;
+                }
+            }
+        }
+       
+    }
 
         // Update is called once per frame
         void Update()
         {
             foreach (var input in inputs)
             {
-                if (input.value == true)
-                {
-                    Debug.Log("Input Detacted " + input.buttons);
-                }
-            }
+                inputStae.setButtonValue(input.buttons, input.value);
+               }
 
         }
     }
